@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Write about me</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    <form method="get" onchange='submit()'>
+        {{ form.as_p }}
+    </form>
+    {% if request.user.is_superuser %}
+    <div class="admin-actions">
+        <label>Admin actions:</label>
+    <form action="{% url 'delete' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Reset games">
+    </form></br>
+    <form id="create-restore-point" action="{% url 'backup' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Create a restore point">
+    </form></br>
+    <button id="show-restore-points-button">Show restore points</button>
+</div>
+<div id="restore-points-container" style="display: none;">
+    <form id="restore-form" method="post">
+        {% csrf_token %}
+        <table id="restore-points-table">
+            <tr>
+                <th>Restore Point</th>
+                <th></th>
+            </tr>
+        </table>
+    </form>
+</div>
+{% endif %}
+<div class="top-3">
+    <h3>Most wanted articles:</h3>
+    <ol>
+        {% for game in top_games %}
+            <li>{{ game.title }} ({{ game.votes }} votes)</li>
+        {% endfor %}
+    </ol>
+</div>
+    <h2>Upcoming releases</h2>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th></th>
+        </tr>
+        {% for game in games %}
+            <tr>
+                <td>{{ game.date|date:"d.m.Y" }}</td>
+                <td>{{ game.title }}</td>
+                <td>{{ game.platforms }}</td>
+                {% if request.user.is_superuser %}
+                <td>
+                    <a href="{% url 'game-delete' game.id %}">
+                        <button class="delete-button">Delete</button>
+                    </a>
+                </td>
+                <td><button class="update-button" data-id="{{ game.id }}">Update</button></td>
+        {% endif %}
+                <td>
+                    <form method="post">{% csrf_token %}
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <input type="submit" value="Vote!">
+                </form>
+            </td>
+            </tr>
+        {% if request.user.is_superuser %}
+        <tr class="update-form" data-id="{{ game.id }}" style="display: none;">
+            <td colspan="5">
+                <form method="post" action="{% url 'game-update' game.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" value="{{ game.date|date:'Y-m-d' }}">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" value="{{ game.title }}">
+                    <label for="platforms">Platforms:</label>
+                    <input type="text" name="platforms" value="{{ game.platforms }}">
+                    <input type="submit" value="Save">
+                </form>
+            </td>
+        </tr>
+    {% endif %}
+{% endfor %}
+    </table>
+    <script src="/static/js/update.js"></script>
+    <script src="/static/js/restore.js"></script>
+</body>
+</html>

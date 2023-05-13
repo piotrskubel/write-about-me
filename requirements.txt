@@ -1,0 +1,11 @@
+beautifulsoup4
+django
+django-ratelimit
+html5lib
+lxml
+numpy
+pandas
+pytest
+pytest-django
+python-decouple
+requests

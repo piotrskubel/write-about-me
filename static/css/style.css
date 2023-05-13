@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+}
+form, h2, h3, ol, table {
+    margin: 0 auto;
+    width: 80%;
+}
+select {
+    font-size: 1.2em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+h2 {
+    text-align: center;
+}
+
+h3 {
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+ol {
+    list-style: none;
+    counter-reset: my-awesome-counter;
+    padding-left: 0;
+}
+ol li {
+    counter-increment: my-awesome-counter;
+    margin-bottom: 10px;
+}
+ol li::before {
+    content: counter(my-awesome-counter) ". ";
+    font-weight: bold;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+input[type="submit"], button {
+    font-size: 1em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    cursor:pointer;
+}
+
+.row:hover {
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: rgb(205, 197, 197);
+}
+
+.delete-button {
+    background-color: rgb(197, 48, 48);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}
+
+.admin-actions {
+    display: flex;
+    align-items: center;
+}
+.admin-actions label {
+    margin-right: 20px;
+}
+.admin-actions form:nth-child(2),
+.admin-actions form:nth-child(3),
+.admin-actions button {
+    margin-right: 5px;
+    width: auto;
+    max-width: 200px;
+}
+.admin-actions input,
+.admin-actions button {
+    height: 30px;
+    white-space: nowrap;
+}
